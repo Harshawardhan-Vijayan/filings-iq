@@ -22,3 +22,4 @@ class Filing(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     company: Mapped["Company"] = relationship(back_populates="filings")  # type: ignore[name-defined]
+    sections: Mapped[list["FilingSection"]] = relationship(back_populates="filing")  # type: ignore[name-defined]
