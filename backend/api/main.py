@@ -1,0 +1,35 @@
+import time
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from backend.config import settings
+from backend.database import check_db_connection
+
+app = FastAPI(
+    title="FilingsIQ",
+    description="Evidence-grounded SEC research agent",
+    version="0.1.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+_start_time = time.time()
+
+
+@app.get("/health")
+def health() -> dict:
+    db_ok = check_db_connection()
+    return {
+        "status": "ok" if db_ok else "degraded",
+        "database": "connected" if db_ok else "unavailable",
+        "environment": settings.environment,
+        "uptime_seconds": round(time.time() - _start_time, 1),
+        "supported_tickers": settings.supported_tickers,
+    }
