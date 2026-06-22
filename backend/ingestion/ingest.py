@@ -16,7 +16,9 @@ from backend.ingestion.edgar_client import (
 from backend.models.company import Company
 from backend.models.filing import Filing
 from backend.models.filing_section import FilingSection
+from backend.models.financial_fact import FinancialFact
 from backend.parsers.section_parser import parse_filing_sections
+from backend.parsers.xbrl_parser import parse_xbrl_facts
 
 RAW_DATA_DIR = Path(__file__).parents[2] / "data" / "raw"
 
@@ -41,7 +43,6 @@ def _get_or_create_company(db: Session, ticker: str) -> Company:
 
 
 def _parse_fiscal_period(report_date: str, form_type: str) -> tuple[int | None, int | None]:
-    """Derive fiscal year and quarter from report date and form type."""
     if not report_date:
         return None, None
     try:
@@ -82,7 +83,6 @@ def ingest_filing(db: Session, ticker: str, accession_number: str) -> Filing:
     local_file = acc_dir / meta["primary_document"]
     local_file.write_text(content, encoding="utf-8")
 
-    # Save metadata sidecar
     meta_file = acc_dir / "metadata.json"
     meta_file.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
@@ -103,7 +103,7 @@ def ingest_filing(db: Session, ticker: str, accession_number: str) -> Filing:
         fiscal_quarter=fiscal_quarter,
     )
     db.add(filing)
-    db.flush()  # get filing.id before inserting sections
+    db.flush()
 
     sections = parse_filing_sections(str(local_file), meta["form_type"])
     for s in sections:
@@ -119,6 +119,28 @@ def ingest_filing(db: Session, ticker: str, accession_number: str) -> Filing:
     db.commit()
     db.refresh(filing)
     return filing
+
+
+def ingest_xbrl_facts(db: Session, ticker: str) -> int:
+    """Fetch all XBRL facts for a company and upsert into financial_facts. Returns row count."""
+    company = db.query(Company).filter_by(ticker=ticker).first()
+    if not company:
+        raise ValueError(f"Company {ticker} not yet ingested — run ingest_filing first")
+
+    # Build accession → filing_id map for linking facts to filings
+    filings = db.query(Filing).filter_by(company_id=company.id).all()
+    acc_map = {f.accession_number.replace("-", ""): f.id for f in filings}
+
+    rows = parse_xbrl_facts(company.cik, company.id, acc_map)
+
+    # Delete existing facts for this company before re-inserting
+    db.query(FinancialFact).filter_by(company_id=company.id).delete()
+
+    for row in rows:
+        db.add(FinancialFact(**row))
+
+    db.commit()
+    return len(rows)
 
 
 def ingest_recent_filings(
