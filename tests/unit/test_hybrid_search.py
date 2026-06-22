@@ -7,10 +7,17 @@ from backend.retrieval.search import RetrievedChunk, hybrid_search
 
 def _chunk(chunk_id: int, score: float = 0.5) -> RetrievedChunk:
     return RetrievedChunk(
-        chunk_id=chunk_id, filing_id=1, ticker="MSFT", form_type="10-Q",
-        filing_date="2026-03-31", fiscal_year=2026, fiscal_quarter=3,
-        section_key="risk_factors", section_title="Risk Factors",
-        content=f"chunk {chunk_id}", score=score,
+        chunk_id=chunk_id,
+        filing_id=1,
+        ticker="MSFT",
+        form_type="10-Q",
+        filing_date="2026-03-31",
+        fiscal_year=2026,
+        fiscal_quarter=3,
+        section_key="risk_factors",
+        section_title="Risk Factors",
+        content=f"chunk {chunk_id}",
+        score=score,
     )
 
 

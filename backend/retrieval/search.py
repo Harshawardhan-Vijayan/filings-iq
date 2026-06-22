@@ -12,9 +12,38 @@ from backend.retrieval.embeddings import embed_query
 # Minimal stopword set — Postgres also drops these, but removing them up front
 # keeps the OR-query small and avoids empty-token noise.
 _STOPWORDS = {
-    "a", "an", "and", "are", "as", "at", "be", "by", "did", "do", "does", "for",
-    "from", "had", "has", "have", "in", "is", "it", "its", "of", "on", "or",
-    "that", "the", "their", "to", "was", "were", "what", "which", "with",
+    "a",
+    "an",
+    "and",
+    "are",
+    "as",
+    "at",
+    "be",
+    "by",
+    "did",
+    "do",
+    "does",
+    "for",
+    "from",
+    "had",
+    "has",
+    "have",
+    "in",
+    "is",
+    "it",
+    "its",
+    "of",
+    "on",
+    "or",
+    "that",
+    "the",
+    "their",
+    "to",
+    "was",
+    "were",
+    "what",
+    "which",
+    "with",
 }
 
 
@@ -119,9 +148,7 @@ def fulltext_search(
     tsquery = func.to_tsquery("english", or_query)
     rank = func.ts_rank(FilingChunk.content_tsv, tsquery)
 
-    q = db.query(FilingChunk, rank.label("rank")).filter(
-        FilingChunk.content_tsv.op("@@")(tsquery)
-    )
+    q = db.query(FilingChunk, rank.label("rank")).filter(FilingChunk.content_tsv.op("@@")(tsquery))
     q = _apply_filters(q, ticker, section_key, form_type, fiscal_year)
     rows = q.order_by(rank.desc()).limit(top_k).all()
 
@@ -166,9 +193,15 @@ def hybrid_search(
 def _to_retrieved_from(rc: RetrievedChunk, score: float) -> RetrievedChunk:
     """Copy a RetrievedChunk with a new score."""
     return RetrievedChunk(
-        chunk_id=rc.chunk_id, filing_id=rc.filing_id, ticker=rc.ticker,
-        form_type=rc.form_type, filing_date=rc.filing_date,
-        fiscal_year=rc.fiscal_year, fiscal_quarter=rc.fiscal_quarter,
-        section_key=rc.section_key, section_title=rc.section_title,
-        content=rc.content, score=score,
+        chunk_id=rc.chunk_id,
+        filing_id=rc.filing_id,
+        ticker=rc.ticker,
+        form_type=rc.form_type,
+        filing_date=rc.filing_date,
+        fiscal_year=rc.fiscal_year,
+        fiscal_quarter=rc.fiscal_quarter,
+        section_key=rc.section_key,
+        section_title=rc.section_title,
+        content=rc.content,
+        score=score,
     )

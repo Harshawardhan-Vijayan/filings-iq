@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing import TYPE_CHECKING
 
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import Computed, Date, ForeignKey, Integer, String, Text, func
@@ -7,6 +8,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from backend.config import settings
 from backend.database import Base
+
+if TYPE_CHECKING:
+    from backend.models.filing import Filing
 
 
 class FilingChunk(Base):

@@ -19,7 +19,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Ingest SEC filings for a ticker")
     parser.add_argument("ticker", help="Ticker symbol, e.g. MSFT")
     parser.add_argument("--form-type", default="10-Q", help="Form type (default: 10-Q)")
-    parser.add_argument("--max", type=int, default=3, dest="max_filings", help="Max filings to ingest")
+    parser.add_argument(
+        "--max", type=int, default=3, dest="max_filings", help="Max filings to ingest"
+    )
     args = parser.parse_args()
 
     print(f"Ingesting {args.max_filings}x {args.form_type} for {args.ticker.upper()} ...")

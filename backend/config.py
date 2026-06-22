@@ -19,5 +19,10 @@ class Settings(BaseSettings):
     chunk_tokens: int = 500
     chunk_overlap_tokens: int = 50
 
+    # LLM
+    llm_model: str = "gpt-4o-mini"
+    llm_temperature: float = 0.0
+    max_tool_calls: int = 8
+
 
 settings = Settings()

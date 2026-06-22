@@ -107,14 +107,16 @@ def ingest_filing(db: Session, ticker: str, accession_number: str) -> Filing:
 
     sections = parse_filing_sections(str(local_file), meta["form_type"])
     for s in sections:
-        db.add(FilingSection(
-            filing_id=filing.id,
-            section_key=s.section_key,
-            section_title=s.section_title,
-            content=s.content,
-            sequence=s.sequence,
-            word_count=s.word_count,
-        ))
+        db.add(
+            FilingSection(
+                filing_id=filing.id,
+                section_key=s.section_key,
+                section_title=s.section_title,
+                content=s.content,
+                sequence=s.sequence,
+                word_count=s.word_count,
+            )
+        )
 
     db.commit()
     db.refresh(filing)

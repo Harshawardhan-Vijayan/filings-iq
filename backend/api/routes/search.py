@@ -57,9 +57,13 @@ def search(
 ) -> SearchResponse:
     search_fn = _METHODS.get(method, hybrid_search)
     results = search_fn(
-        db, q,
-        ticker=ticker, section_key=section_key,
-        form_type=form_type, fiscal_year=fiscal_year, top_k=top_k,
+        db,
+        q,
+        ticker=ticker,
+        section_key=section_key,
+        form_type=form_type,
+        fiscal_year=fiscal_year,
+        top_k=top_k,
     )
     return SearchResponse(
         query=q,

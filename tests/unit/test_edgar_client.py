@@ -4,7 +4,6 @@ import pytest
 
 from backend.ingestion.edgar_client import get_company_cik, list_company_filings
 
-
 MOCK_TICKERS = {
     "0": {"cik_str": 789019, "ticker": "MSFT", "title": "MICROSOFT CORP"},
     "1": {"cik_str": 320193, "ticker": "AAPL", "title": "Apple Inc."},

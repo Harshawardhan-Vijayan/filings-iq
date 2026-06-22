@@ -31,8 +31,12 @@ _VALID_FORMS = {"10-Q", "10-K"}
 
 # fiscal_period string → quarter number (None = annual)
 _FP_TO_QUARTER: dict[str, int | None] = {
-    "Q1": 1, "Q2": 2, "Q3": 3, "Q4": 4,
-    "FY": None, "CY": None,
+    "Q1": 1,
+    "Q2": 2,
+    "Q3": 3,
+    "Q4": 4,
+    "FY": None,
+    "CY": None,
 }
 
 
@@ -91,20 +95,24 @@ def parse_xbrl_facts(
                 fp = entry.get("fp", "")
                 accn = entry.get("accn", "").replace("-", "")
 
-                rows.append({
-                    "company_id": company_id,
-                    "filing_id": acc_map.get(accn),
-                    "metric_name": metric_name,
-                    "xbrl_tag": tag,
-                    "value": float(entry["val"]),
-                    "unit": "USD",
-                    "period_start": date.fromisoformat(entry["start"]) if entry.get("start") else None,
-                    "period_end": date.fromisoformat(period_end_str),
-                    "fiscal_year": entry.get("fy"),
-                    "fiscal_quarter": _fp_to_quarter(fp),
-                    "fiscal_period": fp,
-                    "form_type": form,
-                })
+                rows.append(
+                    {
+                        "company_id": company_id,
+                        "filing_id": acc_map.get(accn),
+                        "metric_name": metric_name,
+                        "xbrl_tag": tag,
+                        "value": float(entry["val"]),
+                        "unit": "USD",
+                        "period_start": date.fromisoformat(entry["start"])
+                        if entry.get("start")
+                        else None,
+                        "period_end": date.fromisoformat(period_end_str),
+                        "fiscal_year": entry.get("fy"),
+                        "fiscal_quarter": _fp_to_quarter(fp),
+                        "fiscal_period": fp,
+                        "form_type": form,
+                    }
+                )
             break  # first tag with data wins for this metric
 
     return rows

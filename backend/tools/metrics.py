@@ -50,9 +50,7 @@ def get_financial_metric(
     """
     company = _resolve_company(db, ticker)
 
-    query = db.query(FinancialFact).filter_by(
-        company_id=company.id, metric_name=metric_name
-    )
+    query = db.query(FinancialFact).filter_by(company_id=company.id, metric_name=metric_name)
     if fiscal_year is not None:
         query = query.filter_by(fiscal_year=fiscal_year)
     if fiscal_quarter is not None:
@@ -61,8 +59,7 @@ def get_financial_metric(
     fact = query.order_by(FinancialFact.period_end.desc()).first()
     if not fact:
         raise MetricNotFoundError(
-            f"No '{metric_name}' fact for {ticker} "
-            f"(fy={fiscal_year}, q={fiscal_quarter})"
+            f"No '{metric_name}' fact for {ticker} (fy={fiscal_year}, q={fiscal_quarter})"
         )
     return _fact_to_value(ticker.upper(), fact)
 

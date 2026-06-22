@@ -1,5 +1,7 @@
-from backend.parsers.section_parser import ParsedSection, _normalize_item, parse_filing_sections
-import tempfile, os
+import os
+import tempfile
+
+from backend.parsers.section_parser import _normalize_item, parse_filing_sections
 
 
 def test_normalize_item_basic() -> None:
@@ -23,11 +25,16 @@ def _make_html(items: list[tuple[str, str]]) -> str:
 
 
 def test_parse_10q_finds_mda() -> None:
-    html = _make_html([
-        ("ITEM 1. FINANCIAL STATEMENTS", "Revenue was $65 billion for the quarter."),
-        ("ITEM 2. MANAGEMENT'S DISCUSSION AND ANALYSIS", "Operating income increased year over year."),
-        ("ITEM 1A. RISK FACTORS", "Competition in the cloud market remains intense."),
-    ])
+    html = _make_html(
+        [
+            ("ITEM 1. FINANCIAL STATEMENTS", "Revenue was $65 billion for the quarter."),
+            (
+                "ITEM 2. MANAGEMENT'S DISCUSSION AND ANALYSIS",
+                "Operating income increased year over year.",
+            ),
+            ("ITEM 1A. RISK FACTORS", "Competition in the cloud market remains intense."),
+        ]
+    )
     with tempfile.NamedTemporaryFile(suffix=".htm", mode="w", delete=False) as f:
         f.write(html)
         path = f.name
@@ -43,9 +50,14 @@ def test_parse_10q_finds_mda() -> None:
 
 
 def test_parse_sections_have_content() -> None:
-    html = _make_html([
-        ("ITEM 2. MANAGEMENT'S DISCUSSION AND ANALYSIS", "Operating income increased year over year due to cloud growth."),
-    ])
+    html = _make_html(
+        [
+            (
+                "ITEM 2. MANAGEMENT'S DISCUSSION AND ANALYSIS",
+                "Operating income increased year over year due to cloud growth.",
+            ),
+        ]
+    )
     with tempfile.NamedTemporaryFile(suffix=".htm", mode="w", delete=False) as f:
         f.write(html)
         path = f.name

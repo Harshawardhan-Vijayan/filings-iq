@@ -27,7 +27,7 @@ def list_available_filings(
     try:
         cik = get_company_cik(ticker)
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     return list_company_filings(cik, form_types=[form_type], max_results=10)
 
 
@@ -46,5 +46,5 @@ def trigger_ingest(
             max_filings=body.max_filings,
         )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e)) from e
     return [FilingOut.model_validate(f) for f in filings]

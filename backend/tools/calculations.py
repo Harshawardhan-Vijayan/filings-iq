@@ -16,7 +16,9 @@ def _round(x: float, places: int = 4) -> float:
     return round(x, places)
 
 
-def calculate_growth_rate(current: float, prior: float, label: str = "growth rate") -> CalculationResult:
+def calculate_growth_rate(
+    current: float, prior: float, label: str = "growth rate"
+) -> CalculationResult:
     """Period-over-period growth: (current - prior) / |prior|."""
     if prior == 0:
         raise CalculationError("Cannot compute growth rate from a prior value of zero")

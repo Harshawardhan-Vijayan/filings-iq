@@ -15,9 +15,7 @@ from backend.database import SessionLocal, check_db_connection
 from backend.models.company import Company
 from backend.models.financial_fact import FinancialFact
 
-pytestmark = pytest.mark.skipif(
-    not check_db_connection(), reason="PostgreSQL not available"
-)
+pytestmark = pytest.mark.skipif(not check_db_connection(), reason="PostgreSQL not available")
 
 client = TestClient(app)
 TEST_TICKER = "ZZZ"
@@ -55,12 +53,20 @@ def seeded_company() -> Generator[int, None, None]:
         ("revenue", 80000, 2025, 3, date(2025, 3, 31)),
     ]
     for name, val, fy, fq, pend in facts:
-        db.add(FinancialFact(
-            company_id=cid, metric_name=name, xbrl_tag=f"Mock{name}",
-            value=val, unit="USD", period_end=pend,
-            fiscal_year=fy, fiscal_quarter=fq, fiscal_period=f"Q{fq}",
-            form_type="10-Q",
-        ))
+        db.add(
+            FinancialFact(
+                company_id=cid,
+                metric_name=name,
+                xbrl_tag=f"Mock{name}",
+                value=val,
+                unit="USD",
+                period_end=pend,
+                fiscal_year=fy,
+                fiscal_quarter=fq,
+                fiscal_period=f"Q{fq}",
+                form_type="10-Q",
+            )
+        )
     db.commit()
     db.close()
 
@@ -125,8 +131,10 @@ def test_compare_periods_growth(seeded_company: int) -> None:
         f"/companies/{TEST_TICKER}/comparisons",
         params={
             "metric": "revenue",
-            "current_year": 2026, "current_quarter": 3,
-            "prior_year": 2025, "prior_quarter": 3,
+            "current_year": 2026,
+            "current_quarter": 3,
+            "prior_year": 2025,
+            "prior_quarter": 3,
         },
     )
     assert r.status_code == 200

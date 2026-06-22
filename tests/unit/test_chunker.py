@@ -29,6 +29,7 @@ def test_chunks_respect_token_budget() -> None:
 
 def test_overlap_must_be_smaller_than_chunk() -> None:
     import pytest
+
     with pytest.raises(ValueError):
         chunk_text("some text", chunk_tokens=50, overlap_tokens=50)
 

@@ -1,0 +1,280 @@
+[
+  {
+    "id": "num-001",
+    "question": "What was Microsoft's operating margin in the latest reported period?",
+    "ticker": "MSFT",
+    "category": "numeric",
+    "expected_tools": ["calculate_financial_ratio"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "num-002",
+    "question": "What was Microsoft's total revenue in the latest reported period?",
+    "ticker": "MSFT",
+    "category": "numeric",
+    "expected_tools": ["get_financial_metric"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "num-003",
+    "question": "What was Microsoft's free cash flow in the latest period?",
+    "ticker": "MSFT",
+    "category": "numeric",
+    "expected_tools": ["calculate_financial_ratio"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "num-004",
+    "question": "What is Microsoft's debt-to-assets ratio?",
+    "ticker": "MSFT",
+    "category": "numeric",
+    "expected_tools": ["calculate_financial_ratio"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "num-005",
+    "question": "How much cash and cash equivalents did Microsoft report in the latest period?",
+    "ticker": "MSFT",
+    "category": "numeric",
+    "expected_tools": ["get_financial_metric"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "num-006",
+    "question": "What was Microsoft's net income in the latest reported period?",
+    "ticker": "MSFT",
+    "category": "numeric",
+    "expected_tools": ["get_financial_metric"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "num-007",
+    "question": "What is Microsoft's net profit margin in the latest period?",
+    "ticker": "MSFT",
+    "category": "numeric",
+    "expected_tools": ["calculate_financial_ratio"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "cmp-001",
+    "question": "How did Microsoft's revenue change year over year for the comparable quarter?",
+    "ticker": "MSFT",
+    "category": "cross_quarter",
+    "expected_tools": ["compare_financial_periods"],
+    "expected_direction": "increased",
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "cmp-002",
+    "question": "Did Microsoft's operating income grow compared to the same period last year?",
+    "ticker": "MSFT",
+    "category": "cross_quarter",
+    "expected_tools": ["compare_financial_periods"],
+    "expected_direction": "increased",
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "cmp-003",
+    "question": "How did Microsoft's net income change versus the prior comparable period?",
+    "ticker": "MSFT",
+    "category": "cross_quarter",
+    "expected_tools": ["compare_financial_periods"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "cmp-004",
+    "question": "Compare Microsoft's assets between the two most recent periods.",
+    "ticker": "MSFT",
+    "category": "cross_quarter",
+    "expected_tools": ["compare_financial_periods"],
+    "requires_numeric_answer": true,
+    "requires_citation": false
+  },
+  {
+    "id": "doc-001",
+    "question": "What risks does Microsoft identify related to artificial intelligence?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  },
+  {
+    "id": "doc-002",
+    "question": "What does Microsoft say about competition in cloud services?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  },
+  {
+    "id": "doc-003",
+    "question": "What cybersecurity risks does Microsoft disclose?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  },
+  {
+    "id": "doc-004",
+    "question": "How does Microsoft describe its partnership with OpenAI?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  },
+  {
+    "id": "doc-005",
+    "question": "What legal proceedings does Microsoft describe in its latest filing?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  },
+  {
+    "id": "doc-006",
+    "question": "What does Microsoft's MD&A say about the drivers of revenue growth?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  },
+  {
+    "id": "doc-007",
+    "question": "What risks does Microsoft cite regarding data privacy and regulation?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  },
+  {
+    "id": "chg-001",
+    "question": "What changed in Microsoft's risk factors between the two most recent filings?",
+    "ticker": "MSFT",
+    "category": "comparison",
+    "expected_tools": ["compare_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": false
+  },
+  {
+    "id": "chg-002",
+    "question": "Were any new risk factors added in Microsoft's latest 10-Q compared to the prior one?",
+    "ticker": "MSFT",
+    "category": "comparison",
+    "expected_tools": ["compare_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": false
+  },
+  {
+    "id": "mix-001",
+    "question": "How did Microsoft's revenue change year over year, and what does management attribute the change to?",
+    "ticker": "MSFT",
+    "category": "mixed",
+    "expected_tools": ["compare_financial_periods", "search_filing_sections"],
+    "requires_numeric_answer": true,
+    "requires_citation": true
+  },
+  {
+    "id": "mix-002",
+    "question": "What is Microsoft's operating margin and what risks could affect its profitability?",
+    "ticker": "MSFT",
+    "category": "mixed",
+    "expected_tools": ["calculate_financial_ratio", "search_filing_sections"],
+    "requires_numeric_answer": true,
+    "requires_citation": true
+  },
+  {
+    "id": "mix-003",
+    "question": "How much did Microsoft spend on capital expenditure and how does management explain it?",
+    "ticker": "MSFT",
+    "category": "mixed",
+    "expected_tools": ["get_financial_metric", "search_filing_sections"],
+    "requires_numeric_answer": true,
+    "requires_citation": true
+  },
+  {
+    "id": "uns-001",
+    "question": "What will Microsoft's stock price be next year?",
+    "ticker": "MSFT",
+    "category": "unsupported",
+    "expected_tools": [],
+    "requires_numeric_answer": false,
+    "requires_citation": false,
+    "expect_refusal": true
+  },
+  {
+    "id": "uns-002",
+    "question": "Should I buy Microsoft stock?",
+    "ticker": "MSFT",
+    "category": "unsupported",
+    "expected_tools": [],
+    "requires_numeric_answer": false,
+    "requires_citation": false,
+    "expect_refusal": true
+  },
+  {
+    "id": "uns-003",
+    "question": "What is Microsoft's CEO's home address?",
+    "ticker": "MSFT",
+    "category": "unsupported",
+    "expected_tools": [],
+    "requires_numeric_answer": false,
+    "requires_citation": false,
+    "expect_refusal": true
+  },
+  {
+    "id": "ins-001",
+    "question": "What was Microsoft's revenue in fiscal year 1998?",
+    "ticker": "MSFT",
+    "category": "insufficient_evidence",
+    "expected_tools": ["get_financial_metric"],
+    "requires_numeric_answer": false,
+    "requires_citation": false,
+    "expect_insufficient": true
+  },
+  {
+    "id": "ins-002",
+    "question": "What did Microsoft disclose about quantum computing revenue in its latest filing?",
+    "ticker": "MSFT",
+    "category": "insufficient_evidence",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": false,
+    "expect_insufficient": true
+  },
+  {
+    "id": "ins-003",
+    "question": "How many employees did Microsoft report in the latest 10-Q?",
+    "ticker": "MSFT",
+    "category": "insufficient_evidence",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": false,
+    "expect_insufficient": true
+  },
+  {
+    "id": "doc-008",
+    "question": "What does Microsoft say about the seasonality of its business?",
+    "ticker": "MSFT",
+    "category": "document",
+    "expected_tools": ["search_filing_sections"],
+    "requires_numeric_answer": false,
+    "requires_citation": true
+  }
+]

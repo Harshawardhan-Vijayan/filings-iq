@@ -39,21 +39,23 @@ def index_filing(db: Session, filing_id: int) -> int:
 
     ticker = filing.company.ticker
     for (section, chunk), embedding in zip(pending, embeddings, strict=True):
-        db.add(FilingChunk(
-            filing_id=filing.id,
-            section_id=section.id,
-            ticker=ticker,
-            form_type=filing.form_type,
-            filing_date=filing.filing_date,
-            fiscal_year=filing.fiscal_year,
-            fiscal_quarter=filing.fiscal_quarter,
-            section_key=section.section_key,
-            section_title=section.section_title,
-            chunk_index=chunk.chunk_index,
-            content=chunk.content,
-            token_count=chunk.token_count,
-            embedding=embedding,
-        ))
+        db.add(
+            FilingChunk(
+                filing_id=filing.id,
+                section_id=section.id,
+                ticker=ticker,
+                form_type=filing.form_type,
+                filing_date=filing.filing_date,
+                fiscal_year=filing.fiscal_year,
+                fiscal_quarter=filing.fiscal_quarter,
+                section_key=section.section_key,
+                section_title=section.section_title,
+                chunk_index=chunk.chunk_index,
+                content=chunk.content,
+                token_count=chunk.token_count,
+                embedding=embedding,
+            )
+        )
 
     db.commit()
     return len(pending)

@@ -94,7 +94,7 @@ def get_metric(
     try:
         value = get_financial_metric(db, ticker, metric, fiscal_year, fiscal_quarter)
     except MetricNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     return [value]
 
 
@@ -115,14 +115,13 @@ def get_ratio(
     func, required = _RATIOS[ratio]
     try:
         values = [
-            get_financial_metric(db, ticker, m, fiscal_year, fiscal_quarter).value
-            for m in required
+            get_financial_metric(db, ticker, m, fiscal_year, fiscal_quarter).value for m in required
         ]
         return func(*values)
     except MetricNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     except CalculationError as e:
-        raise HTTPException(status_code=422, detail=str(e))
+        raise HTTPException(status_code=422, detail=str(e)) from e
 
 
 @router.get("/{ticker}/comparisons")
@@ -138,11 +137,15 @@ def compare_periods(
     """Compare a metric across two periods and report the growth between them."""
     try:
         return compare_metric_periods(
-            db, ticker, metric,
-            current_year, current_quarter,
-            prior_year, prior_quarter,
+            db,
+            ticker,
+            metric,
+            current_year,
+            current_quarter,
+            prior_year,
+            prior_quarter,
         )
     except MetricNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     except CalculationError as e:
-        raise HTTPException(status_code=422, detail=str(e))
+        raise HTTPException(status_code=422, detail=str(e)) from e
