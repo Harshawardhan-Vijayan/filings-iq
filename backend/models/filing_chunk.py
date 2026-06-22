@@ -1,7 +1,8 @@
 from datetime import date, datetime
 
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import Date, ForeignKey, Integer, String, Text, func
+from sqlalchemy import Computed, Date, ForeignKey, Integer, String, Text, func
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from backend.config import settings
@@ -34,6 +35,12 @@ class FilingChunk(Base):
     content: Mapped[str] = mapped_column(Text, nullable=False)
     token_count: Mapped[int] = mapped_column(Integer, nullable=False)
     embedding: Mapped[list[float]] = mapped_column(Vector(settings.embedding_dim))
+
+    # Generated full-text search vector over `content` (managed by the database)
+    content_tsv: Mapped[str | None] = mapped_column(
+        TSVECTOR,
+        Computed("to_tsvector('english', content)", persisted=True),
+    )
 
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
