@@ -13,5 +13,11 @@ class Settings(BaseSettings):
     # Supported tickers (Phase 1)
     supported_tickers: list[str] = ["MSFT", "AAPL", "JPM", "GS", "NVDA"]
 
+    # Embeddings / retrieval
+    embedding_model: str = "text-embedding-3-small"
+    embedding_dim: int = 1536
+    chunk_tokens: int = 500
+    chunk_overlap_tokens: int = 50
+
 
 settings = Settings()
