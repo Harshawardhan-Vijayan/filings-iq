@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.routes.filings import router as filings_router
+from backend.api.routes.metrics import router as metrics_router
 from backend.config import settings
 from backend.database import check_db_connection
 
@@ -22,6 +23,7 @@ app.add_middleware(
 )
 
 app.include_router(filings_router)
+app.include_router(metrics_router)
 
 _start_time = time.time()
 
